@@ -48,20 +48,21 @@ function randomNumber () {
 var index = Math.floor((Math.random() * allPictures.length - 1)  + 1);
     console.log (allPictures[index].filePath);
     return allPictures[index].filePath;
-
-
-
-
-//  randomNumber();
-//  randomNumber();
- 
-
-
-
-   
-
 }
+var createSet = function () {
 
+var images = [];
+do {
+var imgPath = randomImage();
+if ( !images.includes( imgPath ) ) { 
+    images.push( imgPath );
+    
+   }
+}while ( images.length < 6 );
+
+  return images;
+}
+  
 
 
 
