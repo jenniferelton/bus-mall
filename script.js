@@ -14,7 +14,7 @@ var bag = new Picture('bag', 'images/bag.jpg');
 var banana = new Picture('banana', 'images/banana.jpg');
 var bathroom = new Picture('bathroom', 'images/bathroom.jpg');
 var boots = new Picture('boots', "images/boots.jpg");
-var breakfast = new Picture('breakfast', 'images/breakfast');
+var breakfast = new Picture('breakfast', 'images/breakfast.jpg');
 var chair = new Picture('chair', 'images/chair.jpg');
 var cthulhu = new Picture('cthulhu', 'images/cthulhu.jpg');
 var dogDuck = new Picture('dogDuck', 'images/dog-duck.jpg');
@@ -31,37 +31,61 @@ var usb = new Picture('usb', 'images/usb.gif');
 var waterCan = new Picture('waterCan', 'images/water-can.jpg');
 var wineGlass = new Picture('wineGlass', 'images/wine-glass.jpg');
 
+function threesom () {
+  var firstImage = document.getElementById('one')
+  firstImage.setAttribute('src', randomNumber());
 
-var firstImage = document.getElementById('one')
-console.log (firstImage);
-firstImage.setAttribute('src', randomNumber());
+  var secondImage = document.getElementById('two')
+  secondImage.setAttribute('src', randomNumber());
 
-var secondImage = document.getElementById('two')
-console.log (secondImage);
-secondImage.setAttribute('src', randomNumber());
-
-var thirdImage = document.getElementById('three')
-console.log (thirdImage);
-thirdImage.setAttribute('src', randomNumber());
+  var thirdImage = document.getElementById('three')
+  thirdImage.setAttribute('src', randomNumber());
+}
 
 function randomNumber () {
-var index = Math.floor((Math.random() * allPictures.length - 1)  + 1);
-    console.log (allPictures[index].filePath);
-    return allPictures[index].filePath;
-}
-var createSet = function () {
+  var index = Math.floor((Math.random() * allPictures.length - 1)  + 1);
+      return allPictures[index].filePath;
+  }
+  var createSet = function () {
 
-var images = [];
-do {
-var imgPath = randomImage();
-if ( !images.includes( imgPath ) ) { 
-    images.push( imgPath );
-    
-   }
-}while ( images.length < 6 );
+  var images = [];
+  do {
+  var imgPath = randomNumber();
+  if ( !images.includes( imgPath ) ) { 
+      images.push( imgPath );
 
-  return images;
+    }
+  }while ( images.length < 3 );
+
+    return images;
 }
+var voter = document.getElementById ('voter')
+voter.addEventListener('click', tally );
+
+function tally(event) {
+ console.log(event.target.src) 
+ for (var i = 0; i < allPictures.length; i++) {
+   var fullFilePath = 'file:///C:/Users/Jennifer/acl201/bus-mall/'+ allPictures[i].filePath
+   if (fullFilePath === event.target.src) {
+     console.log('correct');
+     allPictures[i].timesClicked++
+     }
+    else {console.log ('error')}
+ }
+ threesom();
+}
+
+threesom ();
+
+
+
+
+
+
+
+
+
+
   
 
 
@@ -70,61 +94,20 @@ if ( !images.includes( imgPath ) ) {
 
 
 
+var chartCanvas = document.getElementById('vote').getContext('2d');
 
+var voteChart = new Chart (chartCanvas, {
+type:'bar', 
+data:  { 
+    labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'chair', 'cthulhu',  //x axis//
+    'dogDuck', 'dragon', 'meatball', 'pen', 'petSweep', 'scissors', 'shark', 'sweep', 'tauntaun',
+    'unicorn', 'usb', 'waterCan', 'wineGlass'],
+     datasets:[{          //y axis 
+         label:'Picture voting', //title//
+         data: [1, 2, 3, 4, ]       //need to plug in data once you finish lab 11//
+     }] 
 
+    }
 
+});
 
-// var index1 = [];
-// function Photo(itemName, url, displayCount, voteCount) {
-//    this.name = itemName;
-//     this.url = url;
-//     this.displayCount = displayCount;
-//     this.voteCount = displayCount
-// //     this.getRandomItem ();
-// //     this.checkIfShown ();
-// //     this.voteHandler ();
-// //     this.eventListener ();
-//  }
-// var index1 = Math.floor(Math.random() * (20 - 0 + 1)) + 0;
-// console.log (index1); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var salesByHour = [];
-// var stores = [];
-// var sumOfCookie = 0;
-
-
-// function Shop(location, minCust, maxCust, avgCookieSale) {
-
-//     this.location = location;
-//     this.minCust = minCust;
-//     this.maxCust = maxCust;
-//     this.cookiesSoldHour = [];
-//     this.avgCookieSale = avgCookieSale;
-//     this.total = 0;
-//     this.getRandomNumber();
-//     this.transfer();
-//     this.pushArr();
-// }
-// Shop.prototype.getRandomNumber = function () {
-//     for (var i = 0; i < 15; i++) {
-//         var number = Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust;
-//         var totalCookies = Math.floor(this.avgCookieSale * number);
-//         this.cookiesSoldHour.push(totalCookies);
