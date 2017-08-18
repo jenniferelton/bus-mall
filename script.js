@@ -1,13 +1,15 @@
 var allPictures = [];
+var clickCount = 0;
+var clicked = [];
 
-function Picture (pictureName, filePath, timesShown, timesClicked, Id) {  
+function Picture(pictureName, filePath, timesShown, timesClicked, Id) {
 
- this.pictureName = pictureName;
- this.filePath = filePath;
- this.timesShown = 0;
- this.timesClicked = 0;
- this.Id = Id;
- allPictures.push(this);
+    this.pictureName = pictureName;
+    this.filePath = filePath;
+    this.timesShown = 0;
+    this.timesClicked = 0;
+    this.Id = Id;
+    allPictures.push(this);
 }
 
 var bag = new Picture('bag', 'images/bag.jpg');
@@ -31,83 +33,97 @@ var usb = new Picture('usb', 'images/usb.gif');
 var waterCan = new Picture('waterCan', 'images/water-can.jpg');
 var wineGlass = new Picture('wineGlass', 'images/wine-glass.jpg');
 
-function threesom () {
-  var firstImage = document.getElementById('one')
-  firstImage.setAttribute('src', randomNumber());
+function threesom() {
+    var imageArr = createSet()
+    var firstImage = document.getElementById('one')
+    firstImage.setAttribute('src', imageArr[0]);
 
-  var secondImage = document.getElementById('two')
-  secondImage.setAttribute('src', randomNumber());
+    var secondImage = document.getElementById('two')
+    secondImage.setAttribute('src', imageArr[1]);
 
-  var thirdImage = document.getElementById('three')
-  thirdImage.setAttribute('src', randomNumber());
+    var thirdImage = document.getElementById('three')
+    thirdImage.setAttribute('src', imageArr[2]);
 }
 
-function randomNumber () {
-  var index = Math.floor((Math.random() * allPictures.length - 1)  + 1);
-      return allPictures[index].filePath;
-  }
-  var createSet = function () {
+function toLocalStorage( string , value ) {
 
-  var images = [];
-  do {
-  var imgPath = randomNumber();
-  if ( !images.includes( imgPath ) ) { 
-      images.push( imgPath );
+var allPicturesString = JSON.stringify(value);
+localStorage.setItem( string, allPicturesString)
+}
 
-    }
-  }while ( images.length < 3 );
+
+function randomNumber() {
+    var index = Math.floor((Math.random() * allPictures.length - 1) + 1);
+    return allPictures[index].filePath;
+
+}
+var createSet = function () {
+
+    var images = [];
+    do {
+        var imgPath = randomNumber();
+        if (!images.includes(imgPath)) {
+            images.push(imgPath);
+
+        }
+    } while (images.length < 3);
 
     return images;
 }
-var voter = document.getElementById ('voter')
-voter.addEventListener('click', tally );
+var voter = document.getElementById('voter')
+voter.addEventListener('click', tally);
 
 function tally(event) {
- console.log(event.target.src) 
- for (var i = 0; i < allPictures.length; i++) {
-   var fullFilePath = 'file:///C:/Users/Jennifer/acl201/bus-mall/'+ allPictures[i].filePath
-   if (fullFilePath === event.target.src) {
-     console.log('correct');
-     allPictures[i].timesClicked++
-     }
-    else {console.log ('error')}
- }
- threesom();
-}
+    clickCount++
+    if (clickCount < 25) {
 
-threesom ();
+        for (var i = 0; i < allPictures.length; i++) {
+            var fullFilePath = 'file:///C:/Users/Jennifer/acl201/bus-mall/' + allPictures[i].filePath
+            if (fullFilePath === event.target.src) {
 
+                allPictures[i].timesClicked++
+            }
+        }
+        threesom();
+    } else {
+        for (var i = 0; i < allPictures.length; i++) {
+            clicked.push(allPictures[i].timesClicked)
+        }
 
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-var chartCanvas = document.getElementById('vote').getContext('2d');
-
-var voteChart = new Chart (chartCanvas, {
-type:'bar', 
-data:  { 
-    labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'chair', 'cthulhu',  //x axis//
-    'dogDuck', 'dragon', 'meatball', 'pen', 'petSweep', 'scissors', 'shark', 'sweep', 'tauntaun',
-    'unicorn', 'usb', 'waterCan', 'wineGlass'],
-     datasets:[{          //y axis 
-         label:'Picture voting', //title//
-         data: [1, 2, 3, 4, ]       //need to plug in data once you finish lab 11//
-     }] 
+        showVote()
 
     }
+    threesom();
+}
+threesom()
 
-});
+function showVote() {
 
+toLocalStorage( 'Pictures' , allPictures );
+
+    var chartCanvas = document.getElementById('vote').getContext('2d');
+
+    var voteChart = new Chart(chartCanvas, {
+        type: 'bar',
+        data: {
+            labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'chair', 'cthulhu', //x axis//
+                'dogDuck', 'dragon', 'meatball', 'pen', 'petSweep', 'scissors', 'shark', 'sweep', 'tauntaun',
+                'unicorn', 'usb', 'waterCan', 'wineGlass'
+            ],
+            datasets: [{ //y axis 
+                label: 'Product voting', //title//
+                data: clicked,
+                backgroundColor: 'rgba(0, 29, 198, 0.50)'
+            }],
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Product Votes"
+            },
+            legend: {
+                display: false,
+            }
+        }
+    });
+}
