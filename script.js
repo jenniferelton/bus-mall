@@ -1,6 +1,13 @@
-var allPictures = [];
 var clickCount = 0;
 var clicked = [];
+
+if (localStorage.Pictures) {
+    allPictures = fromLocalStorage('Pictures');
+}
+else {
+    var allPictures = [];
+    instances();
+}
 
 function Picture(pictureName, filePath, timesShown, timesClicked, Id) {
 
@@ -11,28 +18,28 @@ function Picture(pictureName, filePath, timesShown, timesClicked, Id) {
     this.Id = Id;
     allPictures.push(this);
 }
-
-var bag = new Picture('bag', 'images/bag.jpg');
-var banana = new Picture('banana', 'images/banana.jpg');
-var bathroom = new Picture('bathroom', 'images/bathroom.jpg');
-var boots = new Picture('boots', "images/boots.jpg");
-var breakfast = new Picture('breakfast', 'images/breakfast.jpg');
-var chair = new Picture('chair', 'images/chair.jpg');
-var cthulhu = new Picture('cthulhu', 'images/cthulhu.jpg');
-var dogDuck = new Picture('dogDuck', 'images/dog-duck.jpg');
-var dragon = new Picture('dragon', 'images/dragon.jpg');
-var meatball = new Picture('meatball', 'images/meatball.jpg');
-var pen = new Picture('pen', 'images/pen.jpg');
-var petSweep = new Picture('petSweep', 'images/pet-sweep.jpg');
-var scissors = new Picture('scissors', 'images/scissors.jpg');
-var shark = new Picture('shark', 'images/shark.jpg');
-var sweep = new Picture('sweep', 'images/sweep.jpg');
-var tauntaun = new Picture('tauntaun', 'images/tauntaun.jpg');
-var unicorn = new Picture('unicorn', 'images/unicorn.jpg');
-var usb = new Picture('usb', 'images/usb.gif');
-var waterCan = new Picture('waterCan', 'images/water-can.jpg');
-var wineGlass = new Picture('wineGlass', 'images/wine-glass.jpg');
-
+function instances() {
+    var bag = new Picture('bag', 'images/bag.jpg');
+    var banana = new Picture('banana', 'images/banana.jpg');
+    var bathroom = new Picture('bathroom', 'images/bathroom.jpg');
+    var boots = new Picture('boots', "images/boots.jpg");
+    var breakfast = new Picture('breakfast', 'images/breakfast.jpg');
+    var chair = new Picture('chair', 'images/chair.jpg');
+    var cthulhu = new Picture('cthulhu', 'images/cthulhu.jpg');
+    var dogDuck = new Picture('dogDuck', 'images/dog-duck.jpg');
+    var dragon = new Picture('dragon', 'images/dragon.jpg');
+    var meatball = new Picture('meatball', 'images/meatball.jpg');
+    var pen = new Picture('pen', 'images/pen.jpg');
+    var petSweep = new Picture('petSweep', 'images/pet-sweep.jpg');
+    var scissors = new Picture('scissors', 'images/scissors.jpg');
+    var shark = new Picture('shark', 'images/shark.jpg');
+    var sweep = new Picture('sweep', 'images/sweep.jpg');
+    var tauntaun = new Picture('tauntaun', 'images/tauntaun.jpg');
+    var unicorn = new Picture('unicorn', 'images/unicorn.jpg');
+    var usb = new Picture('usb', 'images/usb.gif');
+    var waterCan = new Picture('waterCan', 'images/water-can.jpg');
+    var wineGlass = new Picture('wineGlass', 'images/wine-glass.jpg');
+}
 function threesom() {
     var imageArr = createSet()
     var firstImage = document.getElementById('one')
@@ -45,12 +52,16 @@ function threesom() {
     thirdImage.setAttribute('src', imageArr[2]);
 }
 
-function toLocalStorage( string , value ) {
+function toLocalStorage(string, value) {
 
-var allPicturesString = JSON.stringify(value);
-localStorage.setItem( string, allPicturesString)
+    var allPicturesString = JSON.stringify(value);
+    localStorage.setItem(string, allPicturesString)
 }
 
+function fromLocalStorage(string) {
+    var local = localStorage.getItem(string)
+    return JSON.parse(local)
+}
 
 function randomNumber() {
     var index = Math.floor((Math.random() * allPictures.length - 1) + 1);
@@ -99,7 +110,7 @@ threesom()
 
 function showVote() {
 
-toLocalStorage( 'Pictures' , allPictures );
+    toLocalStorage('Pictures', allPictures);
 
     var chartCanvas = document.getElementById('vote').getContext('2d');
 

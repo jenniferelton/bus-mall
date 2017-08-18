@@ -1,5 +1,4 @@
-
-    header {
+header {
     background-color: rgba(0, 29, 198, 0.50);
     font-size: 1.5em;
     margin: 76px;
@@ -24,26 +23,28 @@
     to {
         margin-left: 0%;
         width: 100%;
-     }
     }
-    body {
-        background-color: lightgreen;
-        display: center;
-        margin: 0;
-    }
-    img {
-        height: 250px;
-        width: 304px;
-        padding: 20px;
-        border: 2px solid darkblue;
-    }
-    #voter {
-        margin: 3em;
-        text-align: center;
-    }
+}
 
-    #vote  {
-        width: 100px;
-        height: 100px;
-    }
-    
+body {
+    background-color: lightgreen;
+    display: center;
+    margin: 0;
+}
+
+img {
+    height: 250px;
+    width: 304px;
+    padding: 20px;
+    border: 2px solid darkblue;
+}
+
+#voter {
+    margin: 3em;
+    text-align: center;
+}
+
+#vote {
+    width: 100px;
+    height: 100px;
+}
